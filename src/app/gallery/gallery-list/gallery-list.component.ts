@@ -6,16 +6,13 @@ import {ImageModel} from '../../core/models/image.model';
   templateUrl: './gallery-list.component.html',
   styleUrls: ['./gallery-list.component.scss']
 })
-export class GalleryListComponent implements OnInit {
+export class GalleryListComponent {
 
   @Input() list: ImageModel[];
 
   @Output() selectImage = new EventEmitter<ImageModel>();
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   onSelectImage(image: ImageModel) {
     this.selectImage.emit(image);

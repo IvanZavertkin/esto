@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImageTypeEnum} from '../../core/enums/image-type.enum';
 import {ImageModel} from '../../core/models/image.model';
+import {LocalStorageService} from '../../core/services/local-storage.service';
 
 @Component({
   selector: 'app-single-photo',
@@ -13,7 +14,8 @@ export class SinglePhotoComponent implements OnInit {
   image: ImageModel;
 
   constructor(
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
@@ -21,15 +23,15 @@ export class SinglePhotoComponent implements OnInit {
   }
 
   getImageFromLocalStorage() {
-    const images: ImageModel[] = JSON.parse(localStorage.getItem(ImageTypeEnum.FavoriteImage));
+    const images: ImageModel[] = this.localStorageService.get(ImageTypeEnum.FavoriteImage);
     if (images && images.length > 0) {
       this.image = images.find(image => image.id === this.activatedRoute.snapshot.params.id);
     }
   }
 
   removeFromFavorites() {
-    const images: ImageModel[] = JSON.parse(localStorage.getItem(ImageTypeEnum.FavoriteImage))
+    const images: ImageModel[] = this.localStorageService.get(ImageTypeEnum.FavoriteImage)
         .filter(image => image.id !== this.image.id);
-    localStorage.setItem(ImageTypeEnum.FavoriteImage, JSON.stringify(images));
+    this.localStorageService.set(ImageTypeEnum.FavoriteImage, images);
   }
 }

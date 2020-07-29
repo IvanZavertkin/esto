@@ -3,56 +3,41 @@ import {ImageModel} from '../../core/models/image.model';
 import {FakeJsService} from '../../core/services/fake-js.service';
 import {Subscription} from 'rxjs';
 import {ImageTypeEnum} from '../../core/enums/image-type.enum';
+import {LocalStorageService} from '../../core/services/local-storage.service';
 
 @Component({
   selector: 'app-photos',
   templateUrl: './photos.component.html',
   styleUrls: ['./photos.component.scss']
 })
-export class PhotosComponent implements OnInit, OnDestroy {
+export class PhotosComponent implements OnInit {
 
   list: ImageModel[];
-
-  private subscription: Subscription = new Subscription();
 
   @HostListener('window:scroll', [])
   onScroll(): void {
     if (this.bottomReached()) {
-      this.fakeService.loadNewImages();
+      this.list = [...this.list, ...this.fakeService.getImages()] as ImageModel[];
     }
   }
 
   constructor(
-    private fakeService: FakeJsService
+    private fakeService: FakeJsService,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
-    this.getPhotos();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.list = this.fakeService.getImages();
   }
 
   addToFavorites(image: ImageModel): void {
-    const favoriteImages: string = localStorage.getItem(ImageTypeEnum.FavoriteImage);
+    const favoriteImages: ImageModel[] = this.localStorageService.get(ImageTypeEnum.FavoriteImage);
     if (favoriteImages) {
-      const favoriteImagesArray = JSON.parse(favoriteImages);
-      favoriteImagesArray.push(image);
-      localStorage.setItem(ImageTypeEnum.FavoriteImage, JSON.stringify(favoriteImagesArray));
+      favoriteImages.push(image);
+      this.localStorageService.set(ImageTypeEnum.FavoriteImage, favoriteImages);
     } else {
-      localStorage.setItem(ImageTypeEnum.FavoriteImage, JSON.stringify([image]));
+      this.localStorageService.set(ImageTypeEnum.FavoriteImage, [image]);
     }
-  }
-
-  private getPhotos(): void {
-    this.subscription.add(
-      this.fakeService.getImages().subscribe(data => {
-        if (data.length !== 0) {
-          this.list = data;
-        }
-      })
-    );
   }
 
   private bottomReached(): boolean {
