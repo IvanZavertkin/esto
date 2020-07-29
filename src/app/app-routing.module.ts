@@ -1,24 +1,26 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {GalleryComponent} from './gallery/gallery.component';
+import {PhotosComponent} from './gallery/photos/photos.component';
+import {FavoritesPhotosComponent} from './gallery/favorites-photos/favorites-photos.component';
+import {SinglePhotoComponent} from './gallery/single-photo/single-photo.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: GalleryComponent
+    component: PhotosComponent
   },
   {
     path: 'favorites',
-    component: GalleryComponent
+    component: FavoritesPhotosComponent
   },
   {
     path: 'photos/:id',
-    component: GalleryComponent
+    component: SinglePhotoComponent
   },
   {
     path: '**',
-    component: GalleryComponent
+    component: PhotosComponent
   }
 ];
 
