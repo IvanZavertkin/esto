@@ -11,17 +11,19 @@ export class FakeJsService {
   constructor() { }
 
   getImages(): Observable<ImageModel[]> {
+    const images: ImageModel[] = [];
     do {
-      this.imageArray.push({
+      images.push({
         id: faker.random.uuid(),
         url: faker.random.image()
       });
-    } while (this.imageArray.length < 10);
+    } while (images.length < 10);
 
+    this.imageArray = [...images];
     return of(this.imageArray);
   }
 
-  loadNewImages(): Observable<ImageModel[]> {
+  loadNewImages(): void {
     let count = 0;
     do {
       this.imageArray.push({
@@ -30,7 +32,5 @@ export class FakeJsService {
       });
       count++;
     } while (count < 10);
-
-    return of(this.imageArray);
   }
 }

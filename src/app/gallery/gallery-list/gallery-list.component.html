@@ -1,5 +1,5 @@
 <div class="list">
-  <div *ngFor="let image of list" class="cart">
+  <div *ngFor="let image of list" class="cart" (click)="onSelectImage(image)">
     <img src="{{image.url}}" alt="{{image.id}}">
   </div>
 </div>

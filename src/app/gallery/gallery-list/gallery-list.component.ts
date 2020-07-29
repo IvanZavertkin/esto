@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ImageModel} from '../../core/models/image.model';
 
 @Component({
@@ -10,9 +10,14 @@ export class GalleryListComponent implements OnInit {
 
   @Input() list: ImageModel[];
 
+  @Output() selectImage = new EventEmitter<ImageModel>();
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onSelectImage(image: ImageModel) {
+    this.selectImage.emit(image);
+  }
 }
