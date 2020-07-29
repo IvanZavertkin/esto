@@ -1,0 +1,16 @@
+:host {
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    .cart {
+      max-width: calc(50% - 20px);
+      width: 100%;
+      margin: 10px;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
