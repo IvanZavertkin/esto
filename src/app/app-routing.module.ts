@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'favorites',
-    component: FavoritesPhotosComponent
+    component: FavoritesPhotosComponent,
   },
   {
     path: 'photos/:id',

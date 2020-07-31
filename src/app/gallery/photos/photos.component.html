@@ -1,1 +1,5 @@
-<app-gallery-list [list]="list" (selectImage)="addToFavorites($event)"></app-gallery-list>
+<app-gallery-list class="list" [list]="list" (selectImage)="addToFavorites($event)"></app-gallery-list>
+
+<ng-container *ngIf="isLoad">
+  <div class="load">Loading...</div>
+</ng-container>

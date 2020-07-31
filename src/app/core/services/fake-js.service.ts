@@ -15,7 +15,6 @@ export class FakeJsService {
         url: faker.random.image()
       });
     }
-    console.log(images);
     return images;
   }
 }

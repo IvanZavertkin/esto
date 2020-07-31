@@ -14,10 +14,17 @@ export class PhotosComponent implements OnInit {
 
   list: ImageModel[];
 
+  isLoad: boolean = false;
+
   @HostListener('window:scroll', [])
   onScroll(): void {
     if (this.bottomReached()) {
-      this.list = [...this.list, ...this.fakeService.getImages()] as ImageModel[];
+      this.isLoad = true;
+      // Emulate real-world API
+      setTimeout(() => {
+        this.list = [...this.list, ...this.fakeService.getImages()] as ImageModel[];
+        this.isLoad = false;
+      }, 200);
     }
   }
 
@@ -41,6 +48,12 @@ export class PhotosComponent implements OnInit {
   }
 
   private bottomReached(): boolean {
-    return (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
+    const body = document.body;
+    const html = document.documentElement;
+
+    const height = Math.max( body.scrollHeight, body.offsetHeight,
+      html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+    return height === (window.innerHeight + window.scrollY);
   }
 }
