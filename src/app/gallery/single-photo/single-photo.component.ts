@@ -15,7 +15,8 @@ export class SinglePhotoComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -33,5 +34,7 @@ export class SinglePhotoComponent implements OnInit {
     const images: ImageModel[] = this.localStorageService.get(ImageTypeEnum.FavoriteImage)
         .filter(image => image.id !== this.image.id);
     this.localStorageService.set(ImageTypeEnum.FavoriteImage, images);
+
+    this.router.navigate(['/favorites']);
   }
 }
